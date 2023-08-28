@@ -24,5 +24,53 @@ const fib = (n) => {
   return currentFib;
 };
 
-const arr = [...new Array(10)].map((_, ind) => ind);
-arr.forEach((item) => console.log(fib(item)));
+const MemoizedFib = new Map([
+  [1, 1],
+  [2, 1],
+]);
+
+const fibAdvanced = (n) => {
+  if (n <= 2) return 1;
+
+  let left = MemoizedFib.get(n - 1);
+  let right = MemoizedFib.get(n - 2);
+
+  if (!left) {
+    left = fibAdvanced(n - 1);
+    MemoizedFib.set(n - 1, left);
+  }
+  if (!right) {
+    right = fibAdvanced(n - 2);
+    MemoizedFib.set(n - 2, right);
+  }
+
+  return left + right;
+};
+
+const fibAdvancedOptimized = (n, memo = {}) => {
+  if (n in memo) return memo[n];
+  if (n <= 2) return 1;
+
+  const value = fibAdvancedOptimized(n - 1, memo) + fibAdvancedOptimized(n - 2, memo);
+  memo[n] = value;
+
+  return value;
+};
+
+const memo = {};
+
+console.time();
+console.log(fibAdvancedOptimized(5000, memo));
+console.log(fibAdvancedOptimized(5000, memo));
+console.log(fibAdvancedOptimized(5000, memo));
+console.log(fibAdvancedOptimized(5000, memo));
+console.log(fibAdvancedOptimized(5000, memo));
+console.log(fibAdvancedOptimized(5000, memo));
+console.log(fibAdvancedOptimized(5000, memo));
+console.log(fibAdvancedOptimized(5000, memo));
+console.log(fibAdvancedOptimized(5000, memo));
+console.log(fibAdvancedOptimized(5000, memo));
+console.timeEnd();
+
+// const arr = [...new Array(10)].map((_, ind) => ind);
+// arr.forEach((item) => console.log(fibAdvanced(item)));
