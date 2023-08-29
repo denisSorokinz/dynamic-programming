@@ -27,7 +27,9 @@ class HashMap {
   }
 
   getHash(m, n) {
-    return `${m}-${n}`;
+    const a = m <= n ? m : n;
+    const b = m <= n ? n : m;
+    return `${a}-${b}`;
   }
 
   getValue(m, n) {
@@ -35,35 +37,28 @@ class HashMap {
   }
 
   setValue(m, n, value) {
-    this.values = { ...this.values, [this.getHash(m, n)]: value };
+    this.value = { ...this.value, [this.getHash(m, n)]: value };
+  }
+
+  logValueAmount() {
+    console.log(Object.keys(this.value).length);
   }
 }
 
-const memo = new HashMap();
+const hashMapMemo = new HashMap();
 
-const gridTraveler = (m, n, memo = new HashMap()) => {
-  let value = memo.getValue(m, n);
-  console.log(`${m}-${n} : ${value}`, m - 1 > 1 ? m - 1 : 1);
+const gridTraveler = (m, n) => {
+  let value = hashMapMemo.getValue(m, n);
 
   if (value) return value;
+  if (m === 1 || n === 1) return 1;
+  if (m === 0 || n === 0) return 0;
 
-  // let newMLeft = m - 1;
-  // let newNLeft = n;
-  // if (newMLeft < 1) {
-  //   newMLeft = 1;
-  //   newNLeft = n - 1;
-  // }
-
-  const newMLeft = m - 1 > 1 ? m - 1 : 1;
-  const newNLeft = newMLeft !== 1 ? n : n - 1;
-
-  const newNRight = n - 1 > 1 ? n - 1 : 1;
-  const newMRight = newNRight !== 1 ? m : m - 1;
-
-  value = gridTraveler(newMLeft, newNLeft) + gridTraveler(newMRight, newNRight);
-  memo.setValue(m, n, value);
+  value = gridTraveler(m - 1, n) + gridTraveler(m, n - 1);
+  hashMapMemo.setValue(m, n, value);
 
   return value;
 };
 
-console.log(gridTraveler(10, 10));
+console.log(gridTraveler(18, 18));
+hashMapMemo.logValueAmount();
