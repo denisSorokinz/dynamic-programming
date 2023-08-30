@@ -34,4 +34,4 @@ const howSumOptimized = (targetSum, numbers, memo = {}) => {
   return null;
 };
 
-console.log(howSumOptimized(300, [7, 14]));
+console.log(howSumOptimized(8, [5, 3, 2]));
