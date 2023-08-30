@@ -25,6 +25,21 @@ const calculateDuplicateCombinations = (targetSum, numbers) => {
 
 const canSum = (targetSum, numbers) => calculateDuplicateCombinations(targetSum, numbers) > 1;
 
-const res = canSum(7, [2, 3]);
+// console.log(canSum(7, [2, 3]));
 
-console.log(res);
+const canSumOptimized = (targetSum, numbers, memo = {}) => {
+  if (targetSum in memo) return memo[targetSum];
+  if (targetSum === 0) return true;
+  if (targetSum < 0) return false;
+
+  for (let item of numbers) {
+    const flag = canSumOptimized(targetSum - item, numbers, memo);
+    memo[targetSum - item] = flag;
+    if (flag) return true;
+  }
+
+  memo[targetSum] = false;
+  return false;
+};
+
+console.log(canSumOptimized(8, [5, 3, 2]));
