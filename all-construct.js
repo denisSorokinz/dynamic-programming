@@ -1,3 +1,5 @@
+// time: Big-O(n^m)
+// space: Big-O(m)
 const allConstruct = (str, substrings) => {
   if (str === "") return [""];
 
@@ -14,8 +16,9 @@ const allConstruct = (str, substrings) => {
   return paths;
 };
 
+// time: Big-O(n^m)
+// space: Big-O(m)
 const memo = {};
-
 const allConstructOptimized = (str, substrings, memo) => {
   if (str in memo) return memo[str];
   if (str === "") return [""];
@@ -26,8 +29,7 @@ const allConstructOptimized = (str, substrings, memo) => {
       const newStr = str.replace(substr, "");
       const newStrPaths = allConstructOptimized(newStr, substrings, memo);
 
-      paths = newStrPaths.map((path) => [substr, ...path]);
-      memo[newStr] = paths;
+      paths = paths.concat(newStrPaths.map((path) => [substr, ...path]));
     }
   }
 
@@ -35,8 +37,5 @@ const allConstructOptimized = (str, substrings, memo) => {
   return paths;
 };
 
-console.time();
-console.log(allConstructOptimized("eeeeeeeeeeeeeeeeeeeeeeeeeeee", ["e", "ee", "eee"], memo));
-console.timeEnd();
-
-console.log(memo);
+console.dir(allConstructOptimized("qwe", ["qw", "qwe", "e"], memo));
+// console.log(allConstructOptimized("eeeeeeeeeeeeeeeeeeeeeeeeeeee", ["e", "ee", "eee"], memo));

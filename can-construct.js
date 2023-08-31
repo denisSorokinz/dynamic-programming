@@ -7,8 +7,8 @@ solution:
     repeat until str is ""
 */
 
-// (?) time: Big-O = m^n
-// (?) space: Big-O = m
+// (?) time: Big-O = n^m
+// (?) space: Big-O = m^2
 const canConstruct = (str, substrings) => {
   if (str.length === 0) return true;
 
@@ -22,8 +22,8 @@ const canConstruct = (str, substrings) => {
   return false;
 };
 
-// (?) time: Big-O = m*n
-// (?) space: Big-O = m
+// (?) time: Big-O = n * m^2
+// (?) space: Big-O = m^2
 const canConstructOptimized = (str, substrings, memo = {}) => {
   if (str in memo) return memo[str];
   if (str === "") return true;
