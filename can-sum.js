@@ -42,4 +42,25 @@ const canSumOptimized = (targetSum, numbers, memo = {}) => {
   return false;
 };
 
+const canSumTabulation = (targetSum, numbers) => {
+  const table = Array(targetSum + 1).fill(false);
+  table[0] = true;
+
+  for (let i = 0; i < table.length; i++) {
+    for (let number of numbers) {
+      if (table[i] === false || table[i + number] === undefined) continue;
+
+      table[i + number] = true;
+      if (i + number === targetSum) return true;
+    }
+  }
+
+  return false;
+};
+
+console.time();
 console.log(canSumOptimized(8, [5, 3, 2]));
+console.timeEnd();
+console.time();
+console.log(canSumTabulation(8, [5, 3, 2]));
+console.timeEnd();

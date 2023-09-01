@@ -60,5 +60,26 @@ const gridTraveler = (m, n) => {
   return value;
 };
 
-console.log(gridTraveler(18, 18));
-hashMapMemo.logValueAmount();
+const gridTravelerTabulation = (m, n) => {
+  const row = Array(n + 1).fill(0);
+  const table = [...Array(m + 1)].map(() => [...row]);
+
+  table[1][1] = 1;
+
+  for (let i = 0; i < table.length; i++) {
+    for (let j = 0; j < row.length; j++) {
+      if (i < table.length - 1) table[i + 1][j] += table[i][j];
+
+      if (j < row.length - 1) table[i][j + 1] += table[i][j];
+    }
+  }
+
+  return table[m][n];
+};
+
+console.time();
+console.log(gridTraveler(5, 6));
+console.timeEnd();
+console.time();
+console.log(gridTravelerTabulation(5, 6));
+console.timeEnd();

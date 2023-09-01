@@ -3,6 +3,8 @@ issue: determine nth number of fibonacci sequence
 solution: iterate from 1 till n, memoize prevFib
 */
 
+// time: Big-O(2^n)
+// space: Big-O(n)
 const fib = (n) => {
   if (n < 1) {
     console.log("error: n >= 1");
@@ -47,6 +49,8 @@ const fibAdvanced = (n) => {
   return left + right;
 };
 
+// time: Big-O(n)
+// space: Big-O(n)
 const fibAdvancedOptimized = (n, memo = {}) => {
   if (n in memo) return memo[n];
   if (n <= 2) return 1;
@@ -59,17 +63,26 @@ const fibAdvancedOptimized = (n, memo = {}) => {
 
 const memo = {};
 
+// time: Big-O(n)
+// space: Big-O(n)
+const fibTabulation = (n) => {
+  const table = [...Array(n + 1)].fill(0);
+  table[1] = 1;
+
+  for (let i = 0; i <= n; i++) {
+    table[i + 1] += table[i];
+    table[i + 2] += table[i];
+  }
+
+  return table[n - 1];
+};
+
 console.time();
-console.log(fibAdvancedOptimized(5000, memo));
-console.log(fibAdvancedOptimized(5000, memo));
-console.log(fibAdvancedOptimized(5000, memo));
-console.log(fibAdvancedOptimized(5000, memo));
-console.log(fibAdvancedOptimized(5000, memo));
-console.log(fibAdvancedOptimized(5000, memo));
-console.log(fibAdvancedOptimized(5000, memo));
-console.log(fibAdvancedOptimized(5000, memo));
-console.log(fibAdvancedOptimized(5000, memo));
-console.log(fibAdvancedOptimized(5000, memo));
+console.log(fibAdvancedOptimized(10));
+console.timeEnd();
+
+console.time();
+console.log(fibTabulation(10));
 console.timeEnd();
 
 // const arr = [...new Array(10)].map((_, ind) => ind);
