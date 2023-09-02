@@ -42,6 +42,8 @@ const canSumOptimized = (targetSum, numbers, memo = {}) => {
   return false;
 };
 
+// time: Big-O(m*n)
+// space: Big-O(n)
 const canSumTabulation = (targetSum, numbers) => {
   const table = Array(targetSum + 1).fill(false);
   table[0] = true;
@@ -58,9 +60,27 @@ const canSumTabulation = (targetSum, numbers) => {
   return false;
 };
 
+const canSumTabulationOptimized = (targetSum, numbers) => {
+  const table = Array(targetSum + 1).fill(false);
+  table[0] = true;
+
+  for (let i = 0; i < table.length; i++) {
+    if(table[i] === false) continue;
+
+    for (let number of numbers) {
+      if (table[i + number] === undefined) continue;
+
+      table[i + number] = true;
+      if (i + number === targetSum) return true;
+    }
+  }
+
+  return false;
+};
+
 console.time();
 console.log(canSumOptimized(8, [5, 3, 2]));
 console.timeEnd();
 console.time();
-console.log(canSumTabulation(8, [5, 3, 2]));
+console.log(canSumTabulationOptimized(8, [5, 3, 2]));
 console.timeEnd();

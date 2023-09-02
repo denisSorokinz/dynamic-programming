@@ -34,4 +34,25 @@ const howSumOptimized = (targetSum, numbers, memo = {}) => {
   return null;
 };
 
-console.log(howSumOptimized(8, [5, 3, 2]));
+// time:Big-O(m*n * m)
+// space: Big-O(m*m)
+const howSumTabulation = (targetSum, numbers) => {
+  const table = new Array(targetSum + 1).fill(null);
+
+  table[0] = [[]];
+
+  for (let i = 0; i < table.length; i++) {
+    if (table[i] === null) continue;
+
+    for (let number of numbers) {
+      if (table[i + number] === undefined) continue;
+
+      if (table[i + number] === null) table[i + number] = [];
+      table[i].forEach((path) => table[i + number].push([...path, number]));
+    }
+  }
+
+  return table[targetSum];
+};
+
+console.log(howSumTabulation(100, [25, 50]));
