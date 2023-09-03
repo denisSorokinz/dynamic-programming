@@ -42,4 +42,20 @@ const canConstructOptimized = (str, substrings, memo = {}) => {
   return false;
 };
 
-console.log(canConstructOptimized("eeeeeeeeeeeeeeeeeeeeeeeeeeee", ["e", "ee", "eee"]));
+const canConstructTabulation = (str, substrings) => {
+  const table = Array(str.length + 1).fill(false);
+  table[0] = true;
+
+  for (let i = 0; i < table.length; i++) {
+    if (table[i] === false) continue;
+
+    const strSlice = str.slice(i);
+    for (let substr of substrings) {
+      if (strSlice.startsWith(substr) && table[i + substr.length] !== undefined) table[i + substr.length] = true;
+    }
+  }
+
+  return table[table.length - 1];
+};
+
+console.log(canConstructTabulation("something cool", ["so", "wq", "thing", "me", " ", "oo", "c", "l"]));
