@@ -32,4 +32,23 @@ const countConstructOptimized = (str, substrings, memo = {}) => {
   return count;
 };
 
-console.log(countConstructOptimized("qwerty", ["qw", "er", "ty", "qwe", "rty", "qwer", "t", "y"]));
+// time: Big-O(m*n * m)
+// space: Big-O(m)
+const countConstructTabulation = (str, substrings) => {
+  const table = Array(str.length + 1).fill(0);
+
+  table[0] = 1;
+
+  for (let i = 0; i < table.length - 1; i++) {
+    if (table[i] === false) continue;
+
+    const newStr = str.slice(i);
+    for (let substr of substrings) {
+      if (newStr.startsWith(substr) && i + substr.length < table.length) table[i + substr.length] += 1;
+    }
+  }
+
+  return table[table.length - 1];
+};
+
+console.log(countConstruct("qwerty", ["qwerty", "qw", "ty", "er", "qwe", "r"]));

@@ -42,16 +42,18 @@ const canConstructOptimized = (str, substrings, memo = {}) => {
   return false;
 };
 
+// time: Big-O(m*n * m)
+// space: Big-O(m)
 const canConstructTabulation = (str, substrings) => {
   const table = Array(str.length + 1).fill(false);
   table[0] = true;
 
-  for (let i = 0; i < table.length; i++) {
+  for (let i = 0; i < table.length - 1; i++) {
     if (table[i] === false) continue;
 
     const strSlice = str.slice(i);
     for (let substr of substrings) {
-      if (strSlice.startsWith(substr) && table[i + substr.length] !== undefined) table[i + substr.length] = true;
+      if (strSlice.startsWith(substr) && i + substr.length < table.length) table[i + substr.length] = true;
     }
   }
 
