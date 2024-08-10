@@ -44,7 +44,7 @@ const countConstructTabulation = (str, substrings) => {
 
     const newStr = str.slice(i);
     for (let substr of substrings) {
-      if (newStr.startsWith(substr) && i + substr.length < table.length) table[i + substr.length] += 1;
+      if (newStr.startsWith(substr) && i + substr.length < table.length) table[i + substr.length] += table[i];
     }
   }
 
